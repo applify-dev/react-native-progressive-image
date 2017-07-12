@@ -40,12 +40,14 @@ export default class ProgressiveImage extends Component {
           source={this.props.thumbnailSource}
           onLoad={() => this.onLoadThumbnail()}
           blurRadius={this.props.thumbnailBlurRadius}
+          children={this.props.children}
         />
         <Animated.Image
           resizeMode="cover"
           style={[styles.image, { opacity: this.state.imageOpacity }, this.props.style]}
           source={this.props.imageSource}
           onLoad={() => this.onLoadImage()}
+          children={this.props.children}
         />
       </View>
     )
