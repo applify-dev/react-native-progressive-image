@@ -8,6 +8,7 @@ export default class ProgressiveImage extends Component {
       imageOpacity: new Animated.Value(0),
       thumbnailOpacity: new Animated.Value(0),
     }
+    this.animatedImageComponent = Animated.createAnimatedComponemt(this.props.imageComponent)
   }
 
   onLoadThumbnail() {
@@ -29,25 +30,27 @@ export default class ProgressiveImage extends Component {
   render() {
     return (
       <View style={this.props.style}>
-        <Image
+        <this.props.imageComponent
           resizeMode="cover"
           style={[styles.image, this.props.style]}
           source={this.props.placeHolderSource}
         />
-        <Animated.Image
+        <this.animatedImageComponent
           resizeMode="cover"
           style={[styles.image, { opacity: this.state.thumbnailOpacity }, this.props.style]}
           source={this.props.thumbnailSource}
           onLoad={() => this.onLoadThumbnail()}
           blurRadius={this.props.thumbnailBlurRadius}
           children={this.props.children}
+          {...this.props.imageProps}
         />
-        <Animated.Image
+        <this.animatedImageComponent
           resizeMode="cover"
           style={[styles.image, { opacity: this.state.imageOpacity }, this.props.style]}
           source={this.props.imageSource}
           onLoad={() => this.onLoadImage()}
           children={this.props.children}
+          {...this.props.imageProps}
         />
       </View>
     )
@@ -82,4 +85,5 @@ ProgressiveImage.defaultProps = {
   thumbnailBlurRadius: 5,
   onLoadThumbnail: Function.prototype,
   onLoadImage: Function.prototype,
+  imageComponent: Image,
 }
