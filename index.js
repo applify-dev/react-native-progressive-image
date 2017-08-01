@@ -1,5 +1,8 @@
 import React, { Component, PropTypes } from 'react'
-import { Animated, View, Image, StyleSheet } from 'react-native'
+import { Animated, View, Image, StyleSheet, Platform } from 'react-native'
+import BlurImage from 'react-native-blur-image'
+
+const AnimatedBlurImage = Animated.createAnimatedComponent(BlurImage)
 
 export default class ProgressiveImage extends Component {
   constructor(props) {
@@ -34,14 +37,13 @@ export default class ProgressiveImage extends Component {
           style={[styles.image, this.props.style]}
           source={this.props.placeHolderSource}
         />
-        <Animated.Image
-          resizeMode="cover"
-          style={[styles.image, { opacity: this.state.thumbnailOpacity }, this.props.style]}
-          source={this.props.thumbnailSource}
-          onLoad={() => this.onLoadThumbnail()}
-          blurRadius={this.props.thumbnailBlurRadius}
-          children={this.props.children}
-        />
+        <AnimatedBlurImage
+                resizeMode="cover"
+                style={[styles.image, { opacity: this.state.thumbnailOpacity }, this.props.style]}
+                source={this.props.thumbnailSource}
+                onLoad={() => this.onLoadThumbnail()}
+                blurRadius={this.props.thumbnailBlurRadius}
+                children={this.props.children}/>
         <Animated.Image
           resizeMode="cover"
           style={[styles.image, { opacity: this.state.imageOpacity }, this.props.style]}
@@ -82,4 +84,5 @@ ProgressiveImage.defaultProps = {
   thumbnailBlurRadius: 5,
   onLoadThumbnail: Function.prototype,
   onLoadImage: Function.prototype,
+  tint: 'default',
 }
